@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#8a8ac2; --card:#565555; --accent:#ffcc00; --muted:#bfbfbf; --white:#8e7a0b;
+  --bg:#0d0d0d; --card:#ffffff; --accent:#ff2d87; --muted:#bfbfbf; --white:#ff2d87;
 }
 *{box-sizing:border-box}
 body{
@@ -216,7 +216,7 @@ header{
   transition: transform .18s ease, box-shadow .18s ease;
   animation: pulseCart 1.9s infinite ease-in-out;
 }
-.cart-float:focus { outline: 3px solid rgba(255,204,0,0.18); transform: translateY(-3px); }
+.cart-float:focus { outline: 3px solid rgba(255,45,135,0.25); transform: translateY(-3px); }
 .cart-float:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.45); }
 
 @keyframes pulseCart {
@@ -597,7 +597,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
   padding: 0 12px 4px !important;
   font-size: 14px !important;
   font-weight: 800 !important;
-  color: #111 !important;
+  color: var(--accent) !important;
 }
 
 .categoria-track .product-card .actions {
@@ -1586,10 +1586,10 @@ footer {
 
 <div id="opcoesSandalia">
 
-  <div class="sandalia-box">
+  <div class="sandalia-box" id="boxTamanhoSandalia">
 
     <div class="sandalia-titulo">
-      📏 Escolha a numeração
+      📏 Escolha o tamanho
     </div>
 
     <div
@@ -1600,7 +1600,7 @@ footer {
   </div>
 
 
-  <div class="sandalia-box">
+  <div class="sandalia-box" id="boxCorSandalia">
 
     <div class="sandalia-titulo">
       🎨 Escolha a cor
@@ -1838,7 +1838,7 @@ footer {
 </div>
 
 <!-- BOTÃO WHATSAPP -->
-<a href="https://wa.me/5588996077146?text=Olá!%20Quero%20fazer%20um%20pedido%20🙂" 
+<a href="https://wa.me/5588993407657?text=Olá!%20Quero%20fazer%20um%20pedido%20🙂" 
    target="_blank" class="whatsapp-float" aria-label="Abrir WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
       <path d="M20.52 3.48A11.77 11.77 0 0 0 12 0a11.77 11.77 0 0 0-8.52 3.48A11.77 11.77 0 0 0 0 12a11.58 11.58 0 0 0 1.56 5.82L0 24l6.36-1.62A11.92 11.92 0 0 0 12 23.94h.01A11.77 11.77 0 0 0 20.52 3.48ZM12 21.39a9.63 9.63 0 0 1-4.91-1.35l-.35-.21-3.77.96 1-3.67-.23-.38A9.66 9.66 0 0 1 2.61 12 9.38 9.38 0 0 1 12 2.61 9.38 9.38 0 0 1 21.39 12 9.38 9.38 0 0 1 12 21.39Zm5.14-7.24c-.28-.14-1.65-.81-1.9-.9s-.44-.14-.63.14-.72.9-.89 1.08-.33.21-.6.07a7.94 7.94 0 0 1-2.34-1.44 8.73 8.73 0 0 1-1.62-2c-.17-.28 0-.43.13-.57.13-.14.28-.33.42-.5a1.9 1.9 0 0 0 .28-.47.51.51 0 0 0-.02-.49c-.07-.14-.63-1.51-.86-2.07s-.46-.48-.63-.49h-.54a1 1 0 0 0-.71.33 3 3 0 0 0-.94 2.19A5.34 5.34 0 0 0 7 11.23a12.06 12.06 0 0 0 4.19 4.67c1.55.94 2.15 1.09 2.92.92a2.47 2.47 0 0 0 1.62-1.14 2 2 0 0 0 .14-1.14c-.06-.12-.25-.21-.53-.35Z"/>
@@ -2105,17 +2105,50 @@ function produtoEhSandalia(produto) {
     ''
   ).toLowerCase();
 
+  const temTamanhos =
+    Array.isArray(produto?.tamanhos) &&
+    produto.tamanhos.length > 0;
+
+  const temCores =
+    Array.isArray(produto?.cores) &&
+    produto.cores.length > 0;
+
+  // Mostra o seletor de tamanho/cor para QUALQUER produto que tenha
+  // tamanhos e/ou cores cadastrados no painel — não só sandálias.
   return (
     categoria.includes('sandália') ||
     categoria.includes('sandalia') ||
     nome.includes('sandália') ||
-    nome.includes('sandalia')
+    nome.includes('sandalia') ||
+    temTamanhos ||
+    temCores
   );
+}
+
+// Adiciona a função para checar se o produto exige seleção de tamanho e/ou cor
+function produtoPrecisaTamanho(produto) {
+  return Array.isArray(produto?.tamanhos) && produto.tamanhos.length > 0;
+}
+function produtoPrecisaCor(produto) {
+  return Array.isArray(produto?.cores) && produto.cores.length > 0;
+}
+
+// Mostra um aviso temporário na caixa de seleção de tamanho/cor do produto
+function mostrarAvisoSandalia(msg) {
+  const el = document.getElementById('avisoSandalia');
+  if (!el) { alert(msg); return; }
+  el.textContent = msg;
+  el.style.display = 'block';
+  clearTimeout(window.__avisoSandaliaTimeout);
+  window.__avisoSandaliaTimeout = setTimeout(() => {
+    el.style.display = 'none';
+  }, 4000);
 }
 
 function montarTamanhosSandalia(produto) {
 
   const container = document.getElementById('tamanhosSandalia');
+  const box = document.getElementById('boxTamanhoSandalia');
 
   if (!container) return;
 
@@ -2126,13 +2159,11 @@ function montarTamanhosSandalia(produto) {
     : [];
 
   if (!tamanhos.length) {
-    container.innerHTML = `
-      <div style="color:#777;font-size:13px;">
-        Nenhuma numeração cadastrada.
-      </div>
-    `;
+    if (box) box.style.display = 'none';
     return;
   }
+
+  if (box) box.style.display = 'block';
 
   tamanhos.forEach(tamanho => {
 
@@ -2171,6 +2202,7 @@ function montarTamanhosSandalia(produto) {
 function montarCoresSandalia(produto) {
 
   const container = document.getElementById('coresSandalia');
+  const box = document.getElementById('boxCorSandalia');
 
   if (!container) return;
 
@@ -2181,13 +2213,11 @@ function montarCoresSandalia(produto) {
     : [];
 
   if (!cores.length) {
-    container.innerHTML = `
-      <div style="color:#777;font-size:13px;">
-        Nenhuma cor cadastrada.
-      </div>
-    `;
+    if (box) box.style.display = 'none';
     return;
   }
+
+  if (box) box.style.display = 'block';
 
   cores.forEach(cor => {
 
@@ -2256,47 +2286,28 @@ function atualizarEstoqueSandalia(produto) {
 
   if (!elemento) return;
 
-  const tamanho =
-    sandaliaSelecionada.tamanho;
+  const precisaTamanho = produtoPrecisaTamanho(produto);
+  const precisaCor = produtoPrecisaCor(produto);
 
-  const cor =
-    sandaliaSelecionada.cor;
+  const tamanhoOk = !precisaTamanho || !!sandaliaSelecionada.tamanho;
+  const corOk = !precisaCor || !!sandaliaSelecionada.cor;
 
-  if (!tamanho || !cor) {
+  if (!tamanhoOk || !corOk) {
+
+    const faltando = [];
+    if (!tamanhoOk) faltando.push('o tamanho');
+    if (!corOk) faltando.push('a cor');
 
     elemento.textContent =
-      '📦 Escolha o tamanho e a cor para consultar o estoque.';
+      `📦 Escolha ${faltando.join(' e ')} para consultar o estoque.`;
 
     return;
   }
 
-  const variacoes =
-    Array.isArray(produto?.variacoes)
-      ? produto.variacoes
-      : [];
+  // Estoque geral do produto (o cadastro não guarda estoque por combinação)
+  const estoque = Number(produto?.estoque || 0);
 
-  const variacao =
-    variacoes.find(v =>
-      String(v.tamanho) === String(tamanho) &&
-      String(v.cor).toLowerCase() ===
-        String(cor).toLowerCase()
-    );
-
-  if (!variacao) {
-
-    elemento.textContent =
-      '❌ Essa combinação não está disponível.';
-
-    sandaliaSelecionada.estoque = 0;
-
-    return;
-  }
-
-  const estoque =
-    Number(variacao.estoque || 0);
-
-  sandaliaSelecionada.estoque =
-    estoque;
+  sandaliaSelecionada.estoque = estoque;
 
   if (estoque <= 0) {
 
@@ -2855,7 +2866,7 @@ function renderCategoriasComCarrossel(lista) {
         ${priceHtml}
         <div class="actions">
           <button class="btn info" onclick="openProduct(${p.id})">Ver</button>
-          <button class="btn buy" onclick="addToCart(${p.id},1)">Comprar</button>
+          <button class="btn buy" onclick="openProduct(${p.id})">Comprar</button>
         </div>
       `;
 
@@ -2969,8 +2980,25 @@ if (it.id === 999999) {
             <div class="item">
               <img src="${imgCart}" alt="">
               <div style="flex:1">
-                <div style="font-weight:600">${escapeHtml(prod.nome||'Produto')}</div>
-                <div style="color:var(--muted)">${money(it.price)} x ${it.qt}</div>
+                <div style="font-weight:600">
+    ${escapeHtml(prod.nome || 'Produto')}
+</div>
+
+<div style="color:var(--muted)">
+    ${money(it.price)} x ${it.qt}
+</div>
+
+${it.tamanho ? `
+<div style="font-size:13px;color:#555;margin-top:4px;">
+    📏 Tamanho: <strong>${escapeHtml(it.tamanho)}</strong>
+</div>
+` : ''}
+
+${it.cor ? `
+<div style="font-size:13px;color:#555;margin-top:3px;">
+    🎨 Cor: <strong>${escapeHtml(it.cor)}</strong>
+</div>
+` : ''}
               </div>
               <div style="display:flex;flex-direction:column;gap:6px">
                 <button style="background:transparent;border:none;color:var(--accent);cursor:pointer" onclick="increase(${it.id})">+</button>
@@ -3378,82 +3406,57 @@ if (nomeProd === "luminoso em acrílico") {
 
 if (produtoEhSandalia(p)) {
 
+  const precisaTamanho = produtoPrecisaTamanho(p);
+  const precisaCor = produtoPrecisaCor(p);
+
   const tamanho =
     sandaliaSelecionada.tamanho;
 
   const cor =
     sandaliaSelecionada.cor;
 
-  if (!tamanho) {
+  if (precisaTamanho && !tamanho) {
 
     mostrarAvisoSandalia(
-      '📏 Escolha a numeração da sandália.'
+      '📏 Escolha o tamanho.'
     );
 
     return;
   }
 
-  if (!cor) {
+  if (precisaCor && !cor) {
 
     mostrarAvisoSandalia(
-      '🎨 Escolha a cor da sandália.'
+      '🎨 Escolha a cor.'
     );
 
     return;
   }
 
-  const variacao =
-    Array.isArray(p.variacoes)
-      ? p.variacoes.find(v =>
-          String(v.tamanho) === String(tamanho) &&
-          String(v.cor).toLowerCase() ===
-            String(cor).toLowerCase()
-        )
-      : null;
-
-  if (!variacao) {
-
-    elemento.textContent =
-      '📦 Disponibilidade será confirmada pelo WhatsApp.';
-
-    sandaliaSelecionada.estoque = 0;
-
-    return;
-}
-
-  const estoque = variacao
-  ? Number(variacao.estoque || 0)
-  : 0;
+  const estoque = Number(p.estoque || 0);
 
   if (quantidade > estoque) {
 
     mostrarAvisoSandalia(
-      `⚠️ Só existem ${estoque} unidade(s) dessa combinação.`
+      `⚠️ Só existem ${estoque} unidade(s) em estoque.`
     );
 
     return;
   }
 
-  const promo =
-    aplicarPromocao(p);
+    const promo = aplicarPromocao(p);
 
-  cart.push({
-
+  const itemCarrinho = {
     id: p.id,
-
     qt: quantidade,
+    price: Number(promo.preco ?? p.preco ?? 0)
+  };
 
-    price: Number(
-      promo.preco ??
-      p.preco ??
-      0
-    ),
+  // GUARDA A VARIAÇÃO ESCOLHIDA (só quando o produto tiver essa opção)
+  if (tamanho) itemCarrinho.tamanho = String(tamanho).trim();
+  if (cor) itemCarrinho.cor = String(cor).trim();
 
-    tamanho: String(tamanho),
-
-    cor: String(cor)
-
-  });
+  cart.push(itemCarrinho);
 
   saveCart();
 
@@ -3533,37 +3536,81 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
 
+  // ==============================
+  // TAXA DE ARTE
+  // ==============================
   if (it.id === 999999) {
-    return `${it.qt} x Taxa de Arte Bandeira Personalizada: R$ ${(it.price).toFixed(2)}`;
+    return `${it.qt} x Taxa de Arte Bandeira Personalizada
+💰 Valor unitário: ${money(it.price)}
+💵 Subtotal: ${money((it.price || 0) * (it.qt || 0))}`;
   }
 
-  const prod = produtos.find(p=>p.id == it.id);
+  const prod = produtos.find(p => Number(p.id) === Number(it.id));
 
-  if (it.modelo) {
-    return `${it.qt} x ${prod?.nome || 'Produto'}
-Modelo: ${it.modelo}
-Valor unitário: R$ ${(it.price).toFixed(2)}`;
+  const nomeProduto = prod?.nome || it.nome || 'Produto';
+
+  let mensagemItem = `${it.qt} x ${nomeProduto}`;
+
+  // ==============================
+  // TAMANHO
+  // ==============================
+  if (it.tamanho !== undefined && it.tamanho !== null && String(it.tamanho).trim() !== '') {
+    mensagemItem += `\n📏 Tamanho: ${String(it.tamanho)}`;
   }
 
-  if (it.tamanho || it.cor) {
+  // ==============================
+  // COR
+  // ==============================
+  if (it.cor !== undefined && it.cor !== null && String(it.cor).trim() !== '') {
+    mensagemItem += `\n🎨 Cor: ${String(it.cor)}`;
+  }
 
-  return `${it.qt} x ${prod?.nome || 'Produto'}
-📏 Tamanho: ${it.tamanho || 'Não informado'}
-🎨 Cor: ${it.cor || 'Não informada'}
-Valor unitário: R$ ${(it.price).toFixed(2)}`;
+  // ==============================
+  // MODELO
+  // ==============================
+  if (it.modelo !== undefined && it.modelo !== null && String(it.modelo).trim() !== '') {
+    mensagemItem += `\n🔧 Modelo: ${String(it.modelo)}`;
+  }
 
+  // ==============================
+  // MATERIAL
+  // ==============================
+  if (it.material !== undefined && it.material !== null && String(it.material).trim() !== '') {
+    mensagemItem += `\n🧵 Material: ${String(it.material)}`;
+  }
+
+  // ==============================
+  // VALORES
+  // ==============================
+  mensagemItem += `\n💰 Valor unitário: ${money(it.price)}`;
+
+  mensagemItem += `\n💵 Subtotal: ${money((it.price || 0) * (it.qt || 0))}`;
+
+  return mensagemItem;
+
+}).join('\n━━━━━━━━━━━━━━━━━━\n');
+
+function comprarProduto(id) {
+
+  const produto = produtos.find(p => p.id == id);
+
+  if (!produto) {
+    alert('Produto não encontrado');
+    return;
+  }
+
+  // Se for sandália, abre o modal para escolher
+  // tamanho e cor antes de adicionar
+  if (produtoEhSandalia(produto)) {
+    openProduct(id);
+    return;
+  }
+
+  // Outros produtos continuam funcionando normalmente
+  addToCart(id, 1);
 }
 
-if (it.material) {
-    return `${it.qt} x ${prod?.nome || 'Produto'}
-Material: ${it.material}
-Valor unitário: R$ ${(it.price).toFixed(2)}`;
-}
-
-return `${it.qt} x ${prod?.nome || 'Produto'} : R$ ${(it.price).toFixed(2)}`;
-
-
-}).join('\n--------\n');
+window.comprarProduto = comprarProduto;
 
 
 
@@ -3609,7 +3656,7 @@ ${resumoItens}
 
 🌷 *Moda & Magia — onde cada escolha tem um toque especial de magia!* ✨`;
 
-    const linkWhats = `https://wa.me/5588996077146?text=${encodeURIComponent(mensagem)}`;
+    const linkWhats = `https://wa.me/5588993407657?text=${encodeURIComponent(mensagem)}`;
     window.open(linkWhats, '_blank');
     cart = [];
     saveCart();
