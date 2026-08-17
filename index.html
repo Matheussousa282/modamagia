@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta property="og:title" content="ManchinhaPx Arts — Catálogo Oficial">
-<meta property="og:description" content="Acessórios para Caminhão 🚚✨ Confira nossos produtos e faça seu pedido!">
+<meta property="og:title" content="Moda & Magia — Catálogo Oficial">
+<meta property="og:description" content="✨ Confira nossos produtos e faça seu pedido!">
 <meta property="og:image" content="https://manchinhapxarts.vercel.app/public/mpxartss.jpeg">
 <meta property="og:url" content="https://manchinhapxarts.vercel.app/">
 <meta property="og:type" content="website">
@@ -12,7 +12,7 @@
 <!-- Para WhatsApp exibir imagem maior -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://manchinhapxarts.vercel.app.app/public/mpxartss.jpeg">
-<title>Loja — ManchinhaPx Arts</title>
+<title>Loja — Moda & Magia</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -2115,82 +2115,50 @@ function produtoEhSandalia(produto) {
 
 function montarTamanhosSandalia(produto) {
 
-  const container =
-    document.getElementById('tamanhosSandalia');
+  const container = document.getElementById('tamanhosSandalia');
 
   if (!container) return;
 
   container.innerHTML = '';
 
-  let tamanhos = Array.isArray(produto?.tamanhos)
+  const tamanhos = Array.isArray(produto?.tamanhos)
     ? produto.tamanhos
     : [];
 
-  // Caso a API não tenha tamanhos cadastrados,
-  // não mostra opções falsas.
   if (!tamanhos.length) {
-
     container.innerHTML = `
-      <div style="
-        color:#777;
-        font-size:13px;
-      ">
+      <div style="color:#777;font-size:13px;">
         Nenhuma numeração cadastrada.
       </div>
     `;
-
     return;
   }
 
   tamanhos.forEach(tamanho => {
 
-    const botao =
-      document.createElement('button');
+    const botao = document.createElement('button');
 
     botao.type = 'button';
-
-    botao.className =
-      'sandalia-opcao';
-
-    botao.textContent =
-      tamanho;
-
-    botao.dataset.tamanho =
-      tamanho;
+    botao.className = 'sandalia-opcao';
+    botao.textContent = tamanho;
+    botao.dataset.tamanho = tamanho;
 
     botao.addEventListener('click', () => {
 
-      const existe = verificarEstoqueVariacao(
-        produto,
-        tamanho,
-        sandaliaSelecionada.cor
-      );
-
-      if (
-        sandaliaSelecionada.cor &&
-        !existe
-      ) {
-
-        mostrarAvisoSandalia(
-          'Essa combinação de tamanho e cor não está disponível.'
-        );
-
-        return;
-      }
-
+      // Remove somente a seleção dos TAMANHOS
       document
-        .querySelectorAll(
-          '#tamanhosSandalia .sandalia-opcao'
-        )
-        .forEach(btn =>
-          btn.classList.remove('selecionada')
-        );
+        .querySelectorAll('#tamanhosSandalia .sandalia-opcao')
+        .forEach(btn => {
+          btn.classList.remove('selecionada');
+        });
 
+      // Marca este tamanho
       botao.classList.add('selecionada');
 
-      sandaliaSelecionada.tamanho =
-        String(tamanho);
+      // Guarda o tamanho
+      sandaliaSelecionada.tamanho = String(tamanho);
 
+      // Atualiza estoque sem apagar a cor
       atualizarEstoqueSandalia(produto);
 
     });
@@ -2202,80 +2170,50 @@ function montarTamanhosSandalia(produto) {
 
 function montarCoresSandalia(produto) {
 
-  const container =
-    document.getElementById('coresSandalia');
+  const container = document.getElementById('coresSandalia');
 
   if (!container) return;
 
   container.innerHTML = '';
 
-  let cores = Array.isArray(produto?.cores)
+  const cores = Array.isArray(produto?.cores)
     ? produto.cores
     : [];
 
   if (!cores.length) {
-
     container.innerHTML = `
-      <div style="
-        color:#777;
-        font-size:13px;
-      ">
+      <div style="color:#777;font-size:13px;">
         Nenhuma cor cadastrada.
       </div>
     `;
-
     return;
   }
 
   cores.forEach(cor => {
 
-    const botao =
-      document.createElement('button');
+    const botao = document.createElement('button');
 
     botao.type = 'button';
-
-    botao.className =
-      'sandalia-opcao sandalia-cor';
-
-    botao.textContent =
-      cor;
-
-    botao.dataset.cor =
-      cor;
+    botao.className = 'sandalia-opcao sandalia-cor';
+    botao.textContent = cor;
+    botao.dataset.cor = cor;
 
     botao.addEventListener('click', () => {
 
-      const existe = verificarEstoqueVariacao(
-        produto,
-        sandaliaSelecionada.tamanho,
-        cor
-      );
-
-      if (
-        sandaliaSelecionada.tamanho &&
-        !existe
-      ) {
-
-        mostrarAvisoSandalia(
-          'Essa combinação de tamanho e cor não está disponível.'
-        );
-
-        return;
-      }
-
+      // Remove somente a seleção das CORES
       document
-        .querySelectorAll(
-          '#coresSandalia .sandalia-opcao'
-        )
-        .forEach(btn =>
-          btn.classList.remove('selecionada')
-        );
+        .querySelectorAll('#coresSandalia .sandalia-opcao')
+        .forEach(btn => {
+          btn.classList.remove('selecionada');
+        });
 
+      // Marca esta cor
       botao.classList.add('selecionada');
 
-      sandaliaSelecionada.cor =
-        String(cor);
+      // Guarda a cor
+      sandaliaSelecionada.cor = String(cor);
 
+      // Atualiza estoque sem apagar o tamanho
       atualizarEstoqueSandalia(produto);
 
     });
@@ -2372,26 +2310,7 @@ function atualizarEstoqueSandalia(produto) {
   }
 }
 
-function mostrarAvisoSandalia(mensagem) {
 
-  const aviso =
-    document.getElementById('avisoSandalia');
-
-  if (!aviso) return;
-
-  aviso.textContent =
-    mensagem;
-
-  aviso.style.display =
-    'block';
-
-  setTimeout(() => {
-
-    aviso.style.display =
-      'none';
-
-  }, 3000);
-}
 
 function prepararSandalia(produto) {
 
@@ -3494,24 +3413,17 @@ if (produtoEhSandalia(p)) {
 
   if (!variacao) {
 
-    mostrarAvisoSandalia(
-      '❌ Essa combinação não está disponível.'
-    );
+    elemento.textContent =
+      '📦 Disponibilidade será confirmada pelo WhatsApp.';
+
+    sandaliaSelecionada.estoque = 0;
 
     return;
-  }
+}
 
-  const estoque =
-    Number(variacao.estoque || 0);
-
-  if (estoque <= 0) {
-
-    mostrarAvisoSandalia(
-      '❌ Essa combinação está esgotada.'
-    );
-
-    return;
-  }
+  const estoque = variacao
+  ? Number(variacao.estoque || 0)
+  : 0;
 
   if (quantidade > estoque) {
 
@@ -3660,75 +3572,6 @@ return `${it.qt} x ${prod?.nome || 'Produto'} : R$ ${(it.price).toFixed(2)}`;
 }).join('\n--------\n');
 
 
-    let secPlaca = '';
-    if(placaData){
-      secPlaca = `
-Detalhes da Placa Pesonalizada
-
-1️⃣ Cor da placa:
- ${placaData.cor}
-
-2️⃣ Nome na parte de cima (Cidade/Estado):
- ${placaData.topo}
-
-3️⃣ Bandeira (se quiser):
- ${placaData.bandeira}
-
-4️⃣ QRA (nome/apelido grande no centro):
- ${placaData.qra}
-
-5️⃣ Nome ou frase extra embaixo:
- ${placaData.extra}
-
-6️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):
- ${placaData.info}
---------`;
-    }
-
-    let secLum = '';
-    if(lumData){
-      secLum = `
-Detalhes Faixa Refletiva (Luminoso)
-
-1️⃣ Indique o número do modelo da faixa:
- ${lumData.modelo}
-
-2️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):
- ${lumData.info}
-
-3️⃣ Algum nome em específico:
- ${lumData.nome}
-
-4️⃣ QRA (nome/apelido grande no centro):
- ${lumData.qra}
-
-5️⃣ Nome ou frase extra embaixo:
- ${lumData.extra}
-
-6️⃣ Mais informações:
- ${lumData.more}
---------`;
-    }
-
-    let secFaixa = "";
-if (faixaData) {
-  secFaixa = `
-🎨 FAIXA PERSONALIZADA
-
-1️⃣ Modelo da faixa:
- ${faixaData.modelo}
-
-2️⃣ Texto / Logo desejado:
- ${faixaData.texto}
-
-3️⃣ Medidas:
- ${faixaData.medidas || "Padrão 240 × 10 cm"}
-
-4️⃣ Informações adicionais:
- ${faixaData.more}
-
---------`;
-}
 
 
     let dadosEntrega = window.__dados_entrega || null;
@@ -3751,24 +3594,26 @@ Próximo à: ${dadosEntrega.proximo}
     }
 
 
-    const mensagem = `Olá, meu nome é ${cliente.nome}, esse é o meu pedido realizado através da loja Manchinha Px Arts
---------
+    const mensagem = `✨💖 MODA & MAGIA 💖✨
+
+Olá, me chamo ${cliente.nome}! 🥰
+
+Acabei de fazer meu pedido pelo catálogo da *Moda & Magia* e estou super ansiosa(o)! ✨🛍️
+
+📦 *Meu pedido:*
+━━━━━━━━━━━━━━━━━━
+
 ${resumoItens}
---------
-Quantidade de itens: ${cart.length}
-Total dos itens: ${money(valor_total)}
---------
-${secPlaca}
-${secLum}
-${secFaixa}
-${secEntrega}   
-Valor da entrega: A DEFINIR
-Valor Total: ${money(valor_total)}
---------
-Entrega: Manchinha Px Arts
-Contato: (88) 99490-7177
---------
-Pedido feito com Manchinha Px Arts`;
+
+━━━━━━━━━━━━━━━━━━
+
+💰 *Total do pedido: ${money(valor_total)}*
+
+💫 Escolhi tudo com muito carinho e gostaria de confirmar a disponibilidade e os detalhes do meu pedido.
+
+💕 Aguardo a confirmação!
+
+🌷 *Moda & Magia — onde cada escolha tem um toque especial de magia!* ✨`;
 
     const linkWhats = `https://wa.me/5588996077146?text=${encodeURIComponent(mensagem)}`;
     window.open(linkWhats, '_blank');
