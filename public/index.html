@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0d0d0d; --card:#ffffff; --accent:#ff2d87; --muted:#bfbfbf; --white:#ff2d87;
+  --bg:#8a8ac2; --card:#565555; --accent:#ffcc00; --muted:#bfbfbf; --white:#8e7a0b;
 }
 *{box-sizing:border-box}
 body{
@@ -216,7 +216,7 @@ header{
   transition: transform .18s ease, box-shadow .18s ease;
   animation: pulseCart 1.9s infinite ease-in-out;
 }
-.cart-float:focus { outline: 3px solid rgba(255,45,135,0.25); transform: translateY(-3px); }
+.cart-float:focus { outline: 3px solid rgba(255,204,0,0.18); transform: translateY(-3px); }
 .cart-float:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.45); }
 
 @keyframes pulseCart {
@@ -354,103 +354,11 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 #nextProducts { right: 8px; }
 
 /* checkout modal */
-.checkout-modal { position: fixed; inset: 0; background: rgba(15,15,15,0.6); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 16px; }
-
-.checkout-box {
-  background: linear-gradient(180deg, #fff 0%, #fff5fa 100%);
-  padding: 28px 24px 24px;
-  border-radius: 22px;
-  width: 90%;
-  max-width: 420px;
-  color: #1a1a1a;
-  position: relative;
-  border: 1px solid #ffd6ea;
-  box-shadow: 0 20px 50px rgba(255,45,135,0.18), 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.checkout-box h2 {
-  margin: 0 0 18px;
-  font-size: 20px;
-  font-weight: 700;
-  color: #111;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.checkout-box h2::before {
-  content: "🛍️";
-  font-size: 18px;
-}
-
-.checkout-form label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #d6006b;
-  margin: 0 0 6px 2px;
-  letter-spacing: .2px;
-}
-
-.checkout-box input, .checkout-box textarea {
-  width: 100%;
-  padding: 12px 14px;
-  background: #fff;
-  border: 1.5px solid #ffd6ea;
-  border-radius: 12px;
-  color: #111;
-  margin-bottom: 14px;
-  font-size: 14.5px;
-  transition: border-color .18s ease, box-shadow .18s ease;
-}
-
-.checkout-box input::placeholder, .checkout-box textarea::placeholder {
-  color: #c9c9c9;
-}
-
-.checkout-box input:focus, .checkout-box textarea:focus {
-  outline: none;
-  border-color: #ff2d87;
-  box-shadow: 0 0 0 4px rgba(255,45,135,0.12);
-}
-
-.close-checkout {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  background: #fff0f7;
-  border: 1px solid #ffd6ea;
-  color: #ff2d87;
-  font-size: 15px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform .15s ease, background .15s ease;
-}
-
-.close-checkout:hover { background: #ffe1ef; transform: scale(1.08); }
-
-.btn-confirmar-pedido {
-  background: linear-gradient(135deg, #ff2d87, #ff5fa2);
-  color: #fff !important;
-  box-shadow: 0 10px 24px rgba(255,45,135,0.35);
-  border: none;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.btn-confirmar-pedido:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(255,45,135,0.45);
-}
+.checkout-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+.checkout-box { background: #121212; padding: 25px; border-radius: 12px; width: 90%; max-width: 420px; color: white; position: relative; }
+.checkout-box input, .checkout-box textarea { width: 100%; padding: 10px; background: #1d1d1d; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 12px; }
+.close-checkout { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
+.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: #FDD835; color: #000; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
 /* modal placa / luminoso */
 .modal-placa-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 999999; }
@@ -689,7 +597,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
   padding: 0 12px 4px !important;
   font-size: 14px !important;
   font-weight: 800 !important;
-  color: var(--accent) !important;
+  color: #111 !important;
 }
 
 .categoria-track .product-card .actions {
@@ -923,7 +831,7 @@ header {
 }
 
 .cart-float {
-    background: #ff2d87 !important;
+    background: #d0cccc !important;
 }
 
 .cart-badge {
@@ -1229,35 +1137,23 @@ footer {
 .tipo-entrega {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 4px 0 6px;
+  gap: 8px;
+  margin: 10px 0;
 }
 
 .radio-opcao {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: #333;
+  gap: 8px;
+  font-size: 15px;
+  color: #fff;
   cursor: pointer;
-  background: #fff;
-  border: 1.5px solid #ffd6ea;
-  border-radius: 12px;
-  padding: 11px 14px;
-  transition: border-color .15s ease, background .15s ease;
-}
-
-.radio-opcao:has(input:checked) {
-  border-color: #ff2d87;
-  background: #fff0f7;
-  color: #111;
 }
 
 .radio-opcao input {
   width: 18px;
   height: 18px;
-  accent-color: #ff2d87;
+  accent-color: #fdd835;
   cursor: pointer;
 }
 
@@ -1266,9 +1162,6 @@ footer {
     margin: 12px auto 0 auto;
     width: 100%;
     text-align: center;
-    padding: 13px;
-    border-radius: 12px;
-    cursor: pointer;
 }
 
 /* ============================
@@ -1604,84 +1497,6 @@ footer {
 }
 
 
-
-/* ===== CARRINHO ROSA ===== */
-.cart {
-  border-left: 1px solid #ffd0e4 !important;
-}
-
-.cart h3 {
-  color: #ff2d87 !important;
-}
-
-.cart .total {
-  color: #ff2d87 !important;
-}
-
-.cart .total #cartTotal {
-  color: #ff2d87 !important;
-}
-
-.cart-float {
-  background: #ff2d87 !important;
-  box-shadow: 0 8px 25px rgba(255,45,135,0.35) !important;
-}
-
-.cart-float:hover {
-  box-shadow: 0 14px 40px rgba(255,45,135,0.45) !important;
-}
-
-.cart-float svg path,
-.cart-float svg rect {
-  stroke: #fff !important;
-}
-
-.cart-badge {
-  background: #fff !important;
-  color: #ff2d87 !important;
-  border: 1px solid #ff2d87;
-}
-
-#btnCheckout {
-  background: linear-gradient(135deg, #ff2d87, #ff5fa2) !important;
-  color: #fff !important;
-  box-shadow: 0 6px 16px rgba(255,45,135,0.25);
-}
-
-#btnClear {
-  background: #fff0f7 !important;
-  color: #d6006b !important;
-  border: 1px solid #ffd0e4 !important;
-}
-
-#btnVoltarCarrinho {
-  background: #ff2d87 !important;
-  color: #fff !important;
-  border: none !important;
-}
-
-#btnVoltarCarrinho:hover,
-#btnCheckout:hover {
-  filter: brightness(0.96);
-}
-
-
-/* ===== ENTREGA NO TEMA ROSA ===== */
-#modalEntrega .modal-placa-box h2 {
-  color: #ff2d87 !important;
-}
-
-#modalEntrega .btn-confirmar-pedido {
-  background: linear-gradient(135deg, #ff2d87, #ff5fa2) !important;
-  color: #fff !important;
-}
-
-#modalEntrega input:focus {
-  outline: none;
-  border-color: #ff2d87 !important;
-  box-shadow: 0 0 0 4px rgba(255,45,135,0.12) !important;
-}
-
 </style>
 </head>
 <body>
@@ -1696,7 +1511,7 @@ footer {
     margin-right: 10px;
 ">☰</button>
 
-    <img src="/public/moda.png" class="logo-topo" alt="Logo">
+    <img src="/public/mpxartss.jpeg" class="logo-topo" alt="Logo">
 
     <div class="linha-baixo">
         <h1 class="nome-loja">Moda & Magia</h1>
@@ -1771,10 +1586,10 @@ footer {
 
 <div id="opcoesSandalia">
 
-  <div class="sandalia-box" id="boxTamanhoSandalia">
+  <div class="sandalia-box">
 
     <div class="sandalia-titulo">
-      📏 Escolha o tamanho
+      📏 Escolha a numeração
     </div>
 
     <div
@@ -1785,7 +1600,7 @@ footer {
   </div>
 
 
-  <div class="sandalia-box" id="boxCorSandalia">
+  <div class="sandalia-box">
 
     <div class="sandalia-titulo">
       🎨 Escolha a cor
@@ -2030,7 +1845,7 @@ footer {
     </svg>
 </a>
 
-<footer>© Moda & Magia</footer>
+<footer>© ManchinhaPx Arts</footer>
 
 <!-- ============================
      CHECKOUT MODAL
@@ -2040,11 +1855,11 @@ footer {
     <button id="closeCheckout" class="close-checkout">✖</button>
     <h2>Finalizar Pedido</h2>
     <div class="checkout-form">
-      <label>👤 Nome completo *</label>
+      <label>Nome completo *</label>
       <input id="nomeCliente" type="text" placeholder="Seu nome">
-      <label>📱 Telefone *</label>
+      <label>Telefone *</label>
       <input id="telefoneCliente" type="tel" placeholder="(DDD) 00000-0000">
-      <label>🚚 Forma de entrega:</label>
+      <label>Forma de entrega:</label>
       <div class="tipo-entrega">
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="retirada" checked>
@@ -2184,10 +1999,10 @@ footer {
 <!-- ========== MODAL ENTREGA J&T EXPRESS ========== -->
 <div id="modalEntrega" class="modal-placa-bg" style="display:none;">
   <div class="modal-placa-box">
-    <h2 style="margin-top:0; text-align:center; color:#ff2d87;">📦 Endereço para Entrega</h2>
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📦 Endereço para Entrega</h2>
 
     <p style="font-size:14px; opacity:.9; margin-bottom:12px;">
-      📌 Por favor nos envie seu endereço para emitirmos o tag de envio pela transportadora!<br>
+      📌 Por favor nos envie seu endereço para emitirmos o tag de envio pela transportadora J&T Express!<br>
       🚨 POR FAVOR, ENVIAR AS INFORMAÇÕES DIGITADAS!
     </p>
 
@@ -2290,50 +2105,17 @@ function produtoEhSandalia(produto) {
     ''
   ).toLowerCase();
 
-  const temTamanhos =
-    Array.isArray(produto?.tamanhos) &&
-    produto.tamanhos.length > 0;
-
-  const temCores =
-    Array.isArray(produto?.cores) &&
-    produto.cores.length > 0;
-
-  // Mostra o seletor de tamanho/cor para QUALQUER produto que tenha
-  // tamanhos e/ou cores cadastrados no painel — não só sandálias.
   return (
     categoria.includes('sandália') ||
     categoria.includes('sandalia') ||
     nome.includes('sandália') ||
-    nome.includes('sandalia') ||
-    temTamanhos ||
-    temCores
+    nome.includes('sandalia')
   );
-}
-
-// Adiciona a função para checar se o produto exige seleção de tamanho e/ou cor
-function produtoPrecisaTamanho(produto) {
-  return Array.isArray(produto?.tamanhos) && produto.tamanhos.length > 0;
-}
-function produtoPrecisaCor(produto) {
-  return Array.isArray(produto?.cores) && produto.cores.length > 0;
-}
-
-// Mostra um aviso temporário na caixa de seleção de tamanho/cor do produto
-function mostrarAvisoSandalia(msg) {
-  const el = document.getElementById('avisoSandalia');
-  if (!el) { alert(msg); return; }
-  el.textContent = msg;
-  el.style.display = 'block';
-  clearTimeout(window.__avisoSandaliaTimeout);
-  window.__avisoSandaliaTimeout = setTimeout(() => {
-    el.style.display = 'none';
-  }, 4000);
 }
 
 function montarTamanhosSandalia(produto) {
 
   const container = document.getElementById('tamanhosSandalia');
-  const box = document.getElementById('boxTamanhoSandalia');
 
   if (!container) return;
 
@@ -2344,11 +2126,13 @@ function montarTamanhosSandalia(produto) {
     : [];
 
   if (!tamanhos.length) {
-    if (box) box.style.display = 'none';
+    container.innerHTML = `
+      <div style="color:#777;font-size:13px;">
+        Nenhuma numeração cadastrada.
+      </div>
+    `;
     return;
   }
-
-  if (box) box.style.display = 'block';
 
   tamanhos.forEach(tamanho => {
 
@@ -2387,7 +2171,6 @@ function montarTamanhosSandalia(produto) {
 function montarCoresSandalia(produto) {
 
   const container = document.getElementById('coresSandalia');
-  const box = document.getElementById('boxCorSandalia');
 
   if (!container) return;
 
@@ -2398,11 +2181,13 @@ function montarCoresSandalia(produto) {
     : [];
 
   if (!cores.length) {
-    if (box) box.style.display = 'none';
+    container.innerHTML = `
+      <div style="color:#777;font-size:13px;">
+        Nenhuma cor cadastrada.
+      </div>
+    `;
     return;
   }
-
-  if (box) box.style.display = 'block';
 
   cores.forEach(cor => {
 
@@ -2471,28 +2256,48 @@ function atualizarEstoqueSandalia(produto) {
 
   if (!elemento) return;
 
-  const precisaTamanho = produtoPrecisaTamanho(produto);
-  const precisaCor = produtoPrecisaCor(produto);
+  const tamanho =
+    sandaliaSelecionada.tamanho;
 
-  const tamanhoOk = !precisaTamanho || !!sandaliaSelecionada.tamanho;
-  const corOk = !precisaCor || !!sandaliaSelecionada.cor;
+  const cor =
+    sandaliaSelecionada.cor;
 
-  if (!tamanhoOk || !corOk) {
-
-    const faltando = [];
-    if (!tamanhoOk) faltando.push('o tamanho');
-    if (!corOk) faltando.push('a cor');
+  if (!tamanho || !cor) {
 
     elemento.textContent =
-      `📦 Escolha ${faltando.join(' e ')} para consultar o estoque.`;
+      '📦 Escolha o tamanho e a cor para consultar o estoque.';
 
     return;
   }
 
-  // Estoque geral do produto (o cadastro não guarda estoque por combinação)
-  const estoque = Number(produto?.estoque || 0);
+  const variacoes =
+    Array.isArray(produto?.variacoes)
+      ? produto.variacoes
+      : [];
 
-  sandaliaSelecionada.estoque = estoque;
+  const variacao =
+    variacoes.find(v =>
+      String(v.tamanho) === String(tamanho) &&
+      String(v.cor).toLowerCase() ===
+        String(cor).toLowerCase()
+    );
+
+  if (!variacao) {
+
+    mostrarAvisoSandalia(
+      '📦 Essa combinação de tamanho e cor não está disponível.'
+    );
+
+    sandaliaSelecionada.estoque = 0;
+
+    return;
+}
+
+  const estoque =
+    Number(variacao.estoque || 0);
+
+  sandaliaSelecionada.estoque =
+    estoque;
 
   if (estoque <= 0) {
 
@@ -3591,39 +3396,58 @@ if (nomeProd === "luminoso em acrílico") {
 
 if (produtoEhSandalia(p)) {
 
-  const precisaTamanho = produtoPrecisaTamanho(p);
-  const precisaCor = produtoPrecisaCor(p);
-
   const tamanho =
     sandaliaSelecionada.tamanho;
 
   const cor =
     sandaliaSelecionada.cor;
 
-  if (precisaTamanho && !tamanho) {
+  if (!tamanho) {
 
     mostrarAvisoSandalia(
-      '📏 Escolha o tamanho.'
+      '📏 Escolha a numeração da sandália.'
     );
 
     return;
   }
 
-  if (precisaCor && !cor) {
+  if (!cor) {
 
     mostrarAvisoSandalia(
-      '🎨 Escolha a cor.'
+      '🎨 Escolha a cor da sandália.'
     );
 
     return;
   }
 
-  const estoque = Number(p.estoque || 0);
+  const variacao =
+    Array.isArray(p.variacoes)
+      ? p.variacoes.find(v =>
+          String(v.tamanho) === String(tamanho) &&
+          String(v.cor).toLowerCase() ===
+            String(cor).toLowerCase()
+        )
+      : null;
+
+  if (!variacao) {
+
+    mostrarAvisoSandalia(
+      '❌ Essa combinação de tamanho e cor não está disponível.'
+    );
+
+    sandaliaSelecionada.estoque = 0;
+
+    return;
+}
+
+  const estoque = variacao
+  ? Number(variacao.estoque || 0)
+  : 0;
 
   if (quantidade > estoque) {
 
     mostrarAvisoSandalia(
-      `⚠️ Só existem ${estoque} unidade(s) em estoque.`
+      `⚠️ Só existem ${estoque} unidade(s) dessa combinação.`
     );
 
     return;
@@ -3631,17 +3455,15 @@ if (produtoEhSandalia(p)) {
 
     const promo = aplicarPromocao(p);
 
-  const itemCarrinho = {
+  cart.push({
     id: p.id,
     qt: quantidade,
-    price: Number(promo.preco ?? p.preco ?? 0)
-  };
+    price: Number(promo.preco ?? p.preco ?? 0),
 
-  // GUARDA A VARIAÇÃO ESCOLHIDA (só quando o produto tiver essa opção)
-  if (tamanho) itemCarrinho.tamanho = String(tamanho).trim();
-  if (cor) itemCarrinho.cor = String(cor).trim();
-
-  cart.push(itemCarrinho);
+    // GUARDA A VARIAÇÃO ESCOLHIDA
+    tamanho: String(tamanho).trim(),
+    cor: String(cor).trim()
+  });
 
   saveCart();
 
@@ -3805,7 +3627,7 @@ window.comprarProduto = comprarProduto;
     let secEntrega = "";
     if (dadosEntrega) {
       secEntrega = `
-📦 *ENDEREÇO PARA ENTREGA*
+📦 *ENDEREÇO PARA ENTREGA (J&T)*
 
 Endereço: ${dadosEntrega.endereco}
 Telefone: ${dadosEntrega.telefone}
@@ -3832,8 +3654,6 @@ Acabei de fazer meu pedido pelo catálogo da *Moda & Magia* e estou super ansios
 ${resumoItens}
 
 ━━━━━━━━━━━━━━━━━━
-
-${secEntrega}
 
 💰 *Total do pedido: ${money(valor_total)}*
 
