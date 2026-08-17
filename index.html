@@ -273,29 +273,48 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 
 
 /* banners */
+/* Altura agora é calculada dinamicamente via JS (ajustarAlturaBanner),
+   conforme o tamanho real de cada imagem enviada — assim qualquer
+   proporção/tamanho de banner é aceita sem cortar a imagem. */
 .banner-carousel {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 300px; /* valor inicial, ajustado pelo JS assim que a imagem carrega */
   overflow: hidden;
   margin-top: 10px;
   border-radius: 12px;
   background: #0a0a0a;
   box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: height 0.35s ease;
 }
 
 .banner-track {
   display: flex;
+  align-items: flex-start;
   transition: transform 0.6s ease-in-out;
   width: 100%;
   height: 100%;
 }
 
-.banner-track img {
+.banner-slide {
   min-width: 100%;
-  height: 300px;
-  object-fit: cover;
+  width: 100%;
+  display: flex;
+}
+
+.banner-slide a {
+  display: block;
+  width: 100%;
+}
+
+.banner-track img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
   border-radius: 12px;
+  background: #0a0a0a;
 }
 
 .banner-carousel .arrow-btn { width:48px; height:48px; }
@@ -472,7 +491,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 /* small responsive tweaks */
 @media(max-width:480px){
   .arrow-btn, #prevProducts, #nextProducts { width: 38px; height: 38px; }
-  .carousel-track img, .banner-track img { height: 220px; }
+  .carousel-track img { height: 220px; }
 }
 
 /* ===== MODAL PADRONIZADO ===== */
@@ -789,26 +808,17 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 }
 
 
-/* Altura padrão no PC */
-.banner-carousel,
-.banner-track img {
-    height: 300px !important;
-}
-
-/* Ajuste perfeito no mobile */
+/* A altura do banner agora é 100% dinâmica (definida via JS em
+   ajustarAlturaBanner, de acordo com o tamanho de cada imagem).
+   As regras fixas de altura foram removidas para permitir banners
+   de qualquer tamanho/proporção sem cortar a imagem. Mantemos apenas
+   um teto máximo por breakpoint para não deixar o banner gigante. */
 @media (max-width: 600px) {
-    .banner-carousel,
-    .banner-track img {
-        height: 160px !important;
-    }
+    .banner-carousel { max-height: 320px; }
 }
 
-/* Ajuste ainda menor para telas muito pequenas */
 @media (max-width: 400px) {
-    .banner-carousel,
-    .banner-track img {
-        height: 130px !important;
-    }
+    .banner-carousel { max-height: 260px; }
 }
 
 .logo-img {
@@ -2654,18 +2664,70 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
       if(!bannerList.length){ track.innerHTML = '<div style="color:#aaa;text-align:center;width:100%">Nenhum banner cadastrado</div>'; return; }
       track.innerHTML = bannerList.map(b=>{
         const img = b.imagem_base64 ? (b.imagem_base64.startsWith('data:image') ? b.imagem_base64 : `data:image/jpeg;base64,${b.imagem_base64}`) : '/placeholder.png';
-        return b.link ? `<a href="${b.link}" target="_blank"><img loading="lazy" decoding="async" src="${img}" alt="${b.titulo || ''}"></a>` : `<img loading="lazy" decoding="async" src="${img}" alt="${b.titulo||''}">`;
+        const imgTag = `<img loading="lazy" decoding="async" src="${img}" alt="${b.titulo || ''}">`;
+        const inner = b.link ? `<a href="${b.link}" target="_blank" rel="noopener">${imgTag}</a>` : imgTag;
+        return `<div class="banner-slide">${inner}</div>`;
       }).join('');
+      currentBanner = 0;
+      track.style.transform = 'translateX(0%)';
       startBannerCarousel();
   }
+
+  // Ajusta a altura do carrossel de banners de acordo com o tamanho
+  // real da imagem exibida no momento, para aceitar QUALQUER
+  // tamanho/proporção de banner sem cortar a imagem (sem object-fit:cover).
+  function ajustarAlturaBanner(){
+    const carousel = document.getElementById('bannerCarousel');
+    const track = document.getElementById('bannerTrack');
+    if(!carousel || !track) return;
+    const slide = track.children[currentBanner];
+    if(!slide) return;
+    const img = slide.querySelector('img');
+    if(!img) return;
+
+    const aplicarAltura = () => {
+      if(!img.naturalWidth || !img.naturalHeight) return;
+      const largura = carousel.clientWidth || track.clientWidth;
+      if(!largura) return;
+      const proporcao = img.naturalHeight / img.naturalWidth;
+      let altura = largura * proporcao;
+
+      // Teto máximo por tamanho de tela, só para o banner não ficar
+      // gigantesco em imagens muito "compridas" — a imagem continua
+      // inteira (object-fit: contain), nunca é cortada.
+      const larguraTela = window.innerWidth;
+      const alturaMax = larguraTela <= 400 ? 260 : larguraTela <= 600 ? 320 : 520;
+      altura = Math.min(altura, alturaMax);
+      altura = Math.max(altura, 90);
+
+      carousel.style.height = `${Math.round(altura)}px`;
+    };
+
+    if(img.complete && img.naturalWidth){
+      aplicarAltura();
+    } else {
+      img.addEventListener('load', aplicarAltura, { once:true });
+    }
+  }
+
   let currentBanner = 0;
+  function irParaBanner(indice){
+    const track = document.getElementById('bannerTrack');
+    if(!track || !banners.length) return;
+    currentBanner = (indice + banners.length) % banners.length;
+    track.style.transform = `translateX(-${currentBanner * 100}%)`;
+    ajustarAlturaBanner();
+  }
   function startBannerCarousel(){
     const track = document.getElementById('bannerTrack'); if(!banners.length) return;
     const prevBtn = document.getElementById('prevBanner'); const nextBtn = document.getElementById('nextBanner');
-    prevBtn.onclick = () => { currentBanner = (currentBanner - 1 + banners.length) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; };
-    nextBtn.onclick = () => { currentBanner = (currentBanner + 1) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; };
-    setInterval(()=>{ currentBanner = (currentBanner + 1) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; }, 6000);
+    ajustarAlturaBanner();
+    prevBtn.onclick = () => irParaBanner(currentBanner - 1);
+    nextBtn.onclick = () => irParaBanner(currentBanner + 1);
+    if(window.__bannerInterval) clearInterval(window.__bannerInterval);
+    window.__bannerInterval = setInterval(()=>{ irParaBanner(currentBanner + 1); }, 6000);
   }
+  window.addEventListener('resize', debounce ? debounce(ajustarAlturaBanner, 200) : ajustarAlturaBanner);
 
   function ativarSwipeCategoria(track) {
     let isDown = false;
@@ -3138,7 +3200,7 @@ function ativarTravamentoDeScroll(track) {
     cartCountFloat.textContent = count;
     cartItems.innerHTML = cart.length === 0
       ? '<div style="color:var(--muted);padding:12px">Carrinho vazio</div>'
-      : cart.map(it => {
+      : cart.map((it, idx) => {
           const prod = produtos.find(p=>p.id==it.id) || {};
           let imgCart = '/placeholder.png';
 
@@ -3152,7 +3214,7 @@ if (it.id === 999999) {
             </div>
             <div style="display:flex;flex-direction:column;gap:6px">
                 <button style="background:transparent;border:none;color:#f55;cursor:pointer"
-                        onclick="decrease(999999)">−</button>
+                        onclick="decrease(${idx})">−</button>
             </div>
         </div>
     `;
@@ -3186,8 +3248,8 @@ ${it.cor ? `
 ` : ''}
               </div>
               <div style="display:flex;flex-direction:column;gap:6px">
-                <button style="background:transparent;border:none;color:var(--accent);cursor:pointer" onclick="increase(${it.id})">+</button>
-                <button style="background:transparent;border:none;color:#f55;cursor:pointer" onclick="decrease(${it.id})">−</button>
+                <button style="background:transparent;border:none;color:var(--accent);cursor:pointer" onclick="increase(${idx})">+</button>
+                <button style="background:transparent;border:none;color:#f55;cursor:pointer" onclick="decrease(${idx})">−</button>
               </div>
             </div>
           `;
@@ -3205,8 +3267,11 @@ ${it.cor ? `
     else cart.push({ id: prod.id, qt: qtd, price: Number(promo.preco || prod.preco) });
     saveCart();
   }
-  function increase(id){ const it = cart.find(i=>i.id==id); if(it){ it.qt++; saveCart(); } }
-  function decrease(id){ const it = cart.find(i=>i.id==id); if(it){ it.qt--; if(it.qt<=0) cart = cart.filter(x=>x.id!=id); saveCart(); } }
+  // increase/decrease agora operam pelo índice do item no carrinho (não pelo id do
+  // produto), pois um mesmo produto pode estar no carrinho mais de uma vez com
+  // cor/tamanho diferentes — usar o id sozinho misturaria a quantidade entre eles.
+  function increase(idx){ const it = cart[idx]; if(it){ it.qt++; saveCart(); } }
+  function decrease(idx){ const it = cart[idx]; if(it){ it.qt--; if(it.qt<=0) cart.splice(idx,1); saveCart(); } }
   function clearCart(){ if(confirm('Limpar carrinho?')){ cart = []; saveCart(); } }
 
   let currentIndex = 0;
