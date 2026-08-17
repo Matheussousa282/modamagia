@@ -3545,12 +3545,6 @@ Modelo: ${it.modelo}
 Valor unitário: R$ ${(it.price).toFixed(2)}`;
   }
 
-  if (it.tamanho && (prod?.nome || "").toLowerCase().includes("luminoso")) {
-    return `${it.qt} x ${prod?.nome}
-Tamanho: ${it.tamanho}
-Valor unitário: R$ ${(it.price).toFixed(2)}`;
-  }
-
   if (it.tamanho || it.cor) {
 
   return `${it.qt} x ${prod?.nome || 'Produto'}
