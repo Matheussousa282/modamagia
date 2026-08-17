@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastro de Sandálias</title>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #474646, #686666);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  background: linear-gradient(90deg, #ffffff, #f4f4f6);
+  color: #171713;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.7em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(193,192,192,.2);
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+main {
+  max-width: 1100px;
+  margin: 35px auto;
+  background: rgb(134,125,125);
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(62,57,57,.61);
+}
+
+/* =========================
+   TITULOS
+========================= */
+
+h2 {
+  color: #141414;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  bottom: -6px;
+  left: 0;
+  background: linear-gradient(90deg,#efefea,#0d0d0d);
+  border-radius: 3px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.secao {
+  background: rgba(255,255,255,.35);
+  padding: 22px;
+  border-radius: 15px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(255,255,255,.35);
+}
+
+.secao-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 18px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-full {
+  grid-column: span 2;
+}
+
+label {
+  font-weight: 500;
+  color: #0c0c0c;
+  margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #efefe9;
+  border-radius: 8px;
+  font-size: 1em;
+  background: #eeeeeb;
+  transition: .3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #555;
+  box-shadow: 0 0 5px rgba(55,55,55,.3);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* =========================
+   CATEGORIA
+========================= */
+
+.categoria-container {
+  display: flex;
+  gap: 8px;
+}
+
+.categoria-container select {
+  flex: 1;
+}
+
+.add-cat-btn {
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  background: #050505;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-cat-btn:hover {
+  background: #333;
+}
+
+/* =========================
+   TAMANHOS
+========================= */
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.opcao {
+  position: relative;
+}
+
+.opcao input {
+  display: none;
+}
+
+.opcao label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 55px;
+  padding: 10px 13px;
+
+  background: #eeeeeb;
+  border: 2px solid #d0d0cc;
+  border-radius: 9px;
+
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: .2s;
+}
+
+.opcao input:checked + label {
+  background: #111;
+  color: white;
+  border-color: #111;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   CORES
+========================= */
+
+.cor-opcao label {
+  min-width: 90px;
+}
+
+.cor-preview {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 7px;
+  border: 1px solid #aaa;
+}
+
+/* =========================
+   ESTOQUE
+========================= */
+
+.estoque-container {
+  overflow-x: auto;
+}
+
+.estoque-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.estoque-tabela th,
+.estoque-tabela td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.estoque-tabela th {
+  background: #e3e3df;
+  color: #303132;
+}
+
+.estoque-tabela td:first-child {
+  font-weight: 600;
+  background: #eeeeeb;
+}
+
+.estoque-input {
+  width: 75px;
+  text-align: center;
+  padding: 7px !important;
+  margin: 0 !important;
+}
+
+/* =========================
+   IMAGENS
+========================= */
+
+.area-imagens {
+  background: rgba(255,255,255,.25);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.botoes-imagem {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.btn-imagem {
+  background: linear-gradient(90deg,#353533,#595757);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-imagem:hover {
+  transform: scale(1.03);
+}
+
+/* =========================
+   PREVIEW
+========================= */
+
+.preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.preview-item {
+  position: relative;
+}
+
+.preview-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0 3px 8px rgba(0,0,0,.2);
+}
+
+.remover-img {
+  position: absolute;
+
+  top: 4px;
+  right: 4px;
+
+  width: 27px !important;
+  height: 27px !important;
+
+  padding: 0 !important;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255,255,255,.95);
+  color: #dc2626;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remover-img:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* =========================
+   BOTÃO SALVAR
+========================= */
+
+.btn-salvar-container {
+  grid-column: span 2;
+  text-align: center;
+}
+
+.btn-salvar {
+  background: linear-gradient(90deg,#111,#444);
+  color: white;
+  padding: 14px 35px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-salvar:hover {
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+/* =========================
+   FILTRO
+========================= */
+
+#filtroInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e6e5db;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   TABELA
+========================= */
+
+.tabela-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #cfcfc7;
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: #e3e3df;
+  color: #303132;
+}
+
+tr:hover {
+  background: #f3f2f0;
+}
+
+.miniatura img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.acoes {
+  white-space: nowrap;
+}
+
+.acoes button {
+  margin-right: 5px;
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.editar {
+  background: #16a34a;
+}
+
+.excluir {
+  background: #dc2626;
+}
+
+.no-data {
+  text-align: center;
+  color: #fd0101;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px) {
+
+  main {
+    margin: 15px;
+    padding: 20px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-full,
+  .btn-salvar-container {
+    grid-column: span 1;
+  }
+
+  .secao {
+    padding: 15px;
+  }
+
+  .preview {
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  .preview-item img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .botoes-imagem {
+    flex-direction: column;
+  }
+
+  .btn-imagem {
+    width: 100%;
+  }
+
+  .opcao label {
+    min-width: 48px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  👡 Cadastro de Produtos
+</header>
+
+<main>
+
+<form id="productForm">
+
+<!-- =====================================================
+     1. INFORMAÇÕES DO PRODUTO
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    👡 Informações do Produto
+  </div>
+
+  <div class="campo">
+    <label>Nome do Produto</label>
+    <input
+      type="text"
+      id="nome"
+      placeholder="Ex.: Sandália Rasteirinha Feminina"
+      required
+    >
+  </div>
+
+  <br>
+
+  <div class="campo">
+    <label>Categoria</label>
+
+    <div class="categoria-container">
+
+      <select id="categoria" required>
+        <option value="">Selecione...</option>
+      </select>
+
+      <button
+        type="button"
+        id="addCategoriaBtn"
+        class="add-cat-btn"
+      >
+        +
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     2. PREÇO / CÓDIGO
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    💰 Preço e Identificação
+  </div>
+
+  <div class="campo">
+    <label>Preço de Venda (R$)</label>
+
+    <input
+      type="text"
+      id="venda"
+      inputmode="decimal"
+      placeholder="Ex.: 59,90"
+      required
+    >
+  </div>
+
+  <br>
+
+  <div class="campo">
+    <label>Código Interno / SKU</label>
+
+    <input
+      type="text"
+      id="codigo"
+      placeholder="Ex.: SAND001"
+      required
+    >
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     3. TAMANHOS
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    📏 Numerações Disponíveis
+  </div>
+
+  <div class="opcoes">
+
+    <div class="opcao">
+      <input type="checkbox" id="tam33" value="33">
+      <label for="tam33">33</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam34" value="34">
+      <label for="tam34">34</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam35" value="35">
+      <label for="tam35">35</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam36" value="36">
+      <label for="tam36">36</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam37" value="37">
+      <label for="tam37">37</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam38" value="38">
+      <label for="tam38">38</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam39" value="39">
+      <label for="tam39">39</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam40" value="40">
+      <label for="tam40">40</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam41" value="41">
+      <label for="tam41">41</label>
+    </div>
+
+    <div class="opcao">
+      <input type="checkbox" id="tam42" value="42">
+      <label for="tam42">42</label>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     4. CORES
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    🎨 Cores Disponíveis
+  </div>
+
+  <div class="opcoes">
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corPreto" value="Preto">
+      <label for="corPreto">
+        <span class="cor-preview" style="background:#000"></span>
+        Preto
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corBranco" value="Branco">
+      <label for="corBranco">
+        <span class="cor-preview" style="background:#fff"></span>
+        Branco
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corNude" value="Nude">
+      <label for="corNude">
+        <span class="cor-preview" style="background:#d8b08c"></span>
+        Nude
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corRosa" value="Rosa">
+      <label for="corRosa">
+        <span class="cor-preview" style="background:#f59ab5"></span>
+        Rosa
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corVermelho" value="Vermelho">
+      <label for="corVermelho">
+        <span class="cor-preview" style="background:#dc2626"></span>
+        Vermelho
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corAzul" value="Azul">
+      <label for="corAzul">
+        <span class="cor-preview" style="background:#2563eb"></span>
+        Azul
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corBege" value="Bege">
+      <label for="corBege">
+        <span class="cor-preview" style="background:#e8d5b5"></span>
+        Bege
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corMarrom" value="Marrom">
+      <label for="corMarrom">
+        <span class="cor-preview" style="background:#7c4a2d"></span>
+        Marrom
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corDourado" value="Dourado">
+      <label for="corDourado">
+        <span class="cor-preview" style="background:#d4af37"></span>
+        Dourado
+      </label>
+    </div>
+
+    <div class="opcao cor-opcao">
+      <input type="checkbox" id="corPrata" value="Prata">
+      <label for="corPrata">
+        <span class="cor-preview" style="background:#c0c0c0"></span>
+        Prata
+      </label>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     5. ESTOQUE POR TAMANHO E COR
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    📦 Estoque por Tamanho e Cor
+  </div>
+
+  <div class="estoque-container">
+
+    <table class="estoque-tabela">
+
+      <thead id="estoqueHead">
+        <tr>
+          <th>Tamanho</th>
+        </tr>
+      </thead>
+
+      <tbody id="estoqueBody">
+        <tr>
+          <td colspan="2">
+            Selecione os tamanhos e cores acima.
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     6. DESCRIÇÃO
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    📝 Descrição
+  </div>
+
+  <textarea
+    id="descricao"
+    rows="5"
+    placeholder="Descreva o produto, material, acabamento, modelo, conforto, etc."
+  ></textarea>
+
+</div>
+
+
+<!-- =====================================================
+     7. IMAGENS
+===================================================== -->
+
+<div class="secao campo-full">
+
+  <div class="secao-titulo">
+    📸 Imagens do Produto
+  </div>
+
+  <div class="area-imagens">
+
+    <!-- CÂMERA -->
+    <input
+      type="file"
+      id="cameraInput"
+      accept="image/*"
+      capture="camera"
+      style="display:none;"
+    >
+
+    <!-- GALERIA -->
+    <input
+      type="file"
+      id="galleryInput"
+      accept="image/*"
+      multiple
+      style="display:none;"
+    >
+
+    <div class="botoes-imagem">
+
+      <button
+        type="button"
+        class="btn-imagem"
+        onclick="document.getElementById('cameraInput').click()"
+      >
+        📷 Tirar Foto
+      </button>
+
+      <button
+        type="button"
+        class="btn-imagem"
+        onclick="document.getElementById('galleryInput').click()"
+      >
+        🖼️ Escolher da Galeria
+      </button>
+
+    </div>
+
+    <!-- PREVISUALIZAÇÃO -->
+    <div
+      class="preview"
+      id="preview"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     8. SALVAR
+===================================================== -->
+
+<div class="btn-salvar-container">
+
+  <button
+    type="submit"
+    class="btn-salvar"
+  >
+    💾 Salvar Produto
+  </button>
+
+</div>
+
+</form>
+
+
+<!-- =====================================================
+     FILTRO
+===================================================== -->
+
+<div class="secao">
+
+  <h2>🔍 Filtrar Produtos</h2>
+
+  <input
+    type="text"
+    id="filtroInput"
+    placeholder="Pesquisar por Nome, Categoria ou Código..."
+  >
+
+</div>
+
+
+<!-- =====================================================
+     LISTA
+===================================================== -->
+
+<div class="secao">
+
+  <h2>📋 Produtos Cadastrados</h2>
+
+  <div class="tabela-container">
+
+    <table id="productTable">
+
+      <thead>
+
+        <tr>
+          <th>Imagem</th>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Preço</th>
+          <th>Estoque</th>
+          <th>Código</th>
+          <th>Ações</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr class="no-data">
+
+          <td colspan="7">
+            Nenhum produto cadastrado ainda.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const form =
+  document.getElementById('productForm');
+
+const tableBody =
+  document.querySelector('#productTable tbody');
+
+const preview =
+  document.getElementById('preview');
+
+const filtroInput =
+  document.getElementById('filtroInput');
+
+const cameraInput =
+  document.getElementById('cameraInput');
+
+const galleryInput =
+  document.getElementById('galleryInput');
+
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+let imagensSelecionadas = [];
+
+let produtos = [];
+
+let produtoEditando = null;
+
+
+/* =====================================================
+   IMAGENS
+===================================================== */
+
+function processarImagens(files) {
+
+  Array.from(files).forEach(file => {
+
+    const img = new Image();
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+      img.src = e.target.result;
+
+    };
+
+    img.onload = function() {
+
+      const canvas =
+        document.createElement("canvas");
+
+      const ctx =
+        canvas.getContext("2d");
+
+      const MAX_WIDTH = 800;
+
+      let width = img.width;
+
+      let height = img.height;
+
+      if(width > MAX_WIDTH) {
+
+        height =
+          height * (MAX_WIDTH / width);
+
+        width = MAX_WIDTH;
+
+      }
+
+      canvas.width = width;
+
+      canvas.height = height;
+
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        width,
+        height
+      );
+
+      const compressed =
+        canvas.toDataURL(
+          "image/jpeg",
+          0.7
+        );
+
+      const wrapper =
+        document.createElement("div");
+
+      wrapper.className =
+        "preview-item";
+
+      const previewImg =
+        document.createElement("img");
+
+      previewImg.src =
+        compressed;
+
+      const btnRemover =
+        document.createElement("button");
+
+      btnRemover.type =
+        "button";
+
+      btnRemover.className =
+        "remover-img";
+
+      btnRemover.innerHTML =
+        "🗑️";
+
+      btnRemover.onclick = () => {
+
+        const index =
+          imagensSelecionadas.indexOf(
+            compressed
+          );
+
+        if(index > -1) {
+
+          imagensSelecionadas.splice(
+            index,
+            1
+          );
+
+        }
+
+        wrapper.remove();
+
+      };
+
+      wrapper.appendChild(previewImg);
+
+      wrapper.appendChild(btnRemover);
+
+      preview.appendChild(wrapper);
+
+      imagensSelecionadas.push(
+        compressed
+      );
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+cameraInput.addEventListener(
+  'change',
+  e => {
+
+    processarImagens(
+      e.target.files
+    );
+
+    e.target.value = "";
+
+  }
+);
+
+
+galleryInput.addEventListener(
+  'change',
+  e => {
+
+    processarImagens(
+      e.target.files
+    );
+
+    e.target.value = "";
+
+  }
+);
+
+
+/* =====================================================
+   TAMANHOS E CORES
+===================================================== */
+
+function obterTamanhosSelecionados() {
+
+  return [
+    ...document.querySelectorAll(
+      'input[id^="tam"]:checked'
+    )
+  ].map(
+    input => input.value
+  );
+
+}
+
+
+function obterCoresSelecionadas() {
+
+  return [
+    ...document.querySelectorAll(
+      'input[id^="cor"]:checked'
+    )
+  ].map(
+    input => input.value
+  );
+
+}
+
+
+/* =====================================================
+   GERAR TABELA DE ESTOQUE
+===================================================== */
+
+function atualizarTabelaEstoque() {
+
+  const tamanhos =
+    obterTamanhosSelecionados();
+
+  const cores =
+    obterCoresSelecionadas();
+
+  const head =
+    document.getElementById(
+      'estoqueHead'
+    );
+
+  const body =
+    document.getElementById(
+      'estoqueBody'
+    );
+
+  if(
+    tamanhos.length === 0 ||
+    cores.length === 0
+  ) {
+
+    head.innerHTML = `
+      <tr>
+        <th>Tamanho</th>
+      </tr>
+    `;
+
+    body.innerHTML = `
+      <tr>
+        <td>
+          Selecione os tamanhos e cores acima.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  head.innerHTML = `
+    <tr>
+
+      <th>Tamanho</th>
+
+      ${cores.map(cor => `
+        <th>${cor}</th>
+      `).join('')}
+
+    </tr>
+  `;
+
+
+  body.innerHTML = tamanhos.map(tamanho => {
+
+    return `
+      <tr>
+
+        <td>
+          ${tamanho}
+        </td>
+
+        ${cores.map(cor => {
+
+          return `
+            <td>
+
+              <input
+                type="number"
+                min="0"
+                value="0"
+                class="estoque-input"
+                data-tamanho="${tamanho}"
+                data-cor="${cor}"
+              >
+
+            </td>
+          `;
+
+        }).join('')}
+
+      </tr>
+    `;
+
+  }).join('');
+
+}
+
+
+document
+  .querySelectorAll(
+    'input[id^="tam"], input[id^="cor"]'
+  )
+  .forEach(input => {
+
+    input.addEventListener(
+      'change',
+      atualizarTabelaEstoque
+    );
+
+  });
+
+
+/* =====================================================
+   PEGAR VARIAÇÕES
+===================================================== */
+
+function obterVariacoes() {
+
+  const inputs =
+    document.querySelectorAll(
+      '.estoque-input'
+    );
+
+  return [...inputs].map(input => {
+
+    return {
+
+      tamanho:
+        input.dataset.tamanho,
+
+      cor:
+        input.dataset.cor,
+
+      estoque:
+        Number(input.value) || 0
+
+    };
+
+  });
+
+}
+
+
+/* =====================================================
+   CARREGAR PRODUTOS
+===================================================== */
+
+async function carregarProdutos() {
+
+  try {
+
+    const res =
+      await fetch('/api/produtos');
+
+    produtos =
+      await res.json();
+
+    atualizarTabela();
+
+  } catch(err) {
+
+    console.error(err);
+
+    tableBody.innerHTML = `
+      <tr class="no-data">
+
+        <td colspan="7">
+          Erro ao carregar produtos
+        </td>
+
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   TABELA
+===================================================== */
+
+function atualizarTabela() {
+
+  tableBody.innerHTML = "";
+
+  if(produtos.length === 0) {
+
+    tableBody.innerHTML = `
+      <tr class="no-data">
+
+        <td colspan="7">
+          Nenhum produto cadastrado ainda.
+        </td>
+
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  produtos.forEach((p,i) => {
+
+    const imagem =
+      p.imagens?.length > 0
+        ? `<img src="${p.imagens[0]}">`
+        : '—';
+
+
+    const totalEstoque =
+      Array.isArray(p.variacoes)
+        ? p.variacoes.reduce(
+            (total, item) =>
+              total + Number(item.estoque || 0),
+            0
+          )
+        : Number(p.estoque || 0);
+
+
+    const linha =
+      document.createElement('tr');
+
+
+    linha.innerHTML = `
+
+      <td class="miniatura">
+        ${imagem}
+      </td>
+
+      <td>
+        ${p.nome}
+      </td>
+
+      <td>
+        ${p.categoria}
+      </td>
+
+      <td>
+        R$ ${Number(p.preco || 0).toFixed(2)}
+      </td>
+
+      <td>
+        ${totalEstoque}
+      </td>
+
+      <td>
+        ${p.codigo}
+      </td>
+
+      <td class="acoes">
+
+        <button
+          class="editar"
+          onclick="editarProduto(${i})"
+        >
+          Editar
+        </button>
+
+        <button
+          class="excluir"
+          onclick="excluirProduto(${i})"
+        >
+          Excluir
+        </button>
+
+      </td>
+
+    `;
+
+    tableBody.appendChild(linha);
+
+  });
+
+}
+
+
+/* =====================================================
+   SALVAR / EDITAR
+===================================================== */
+
+form.addEventListener(
+  'submit',
+  async e => {
+
+    e.preventDefault();
+
+
+    const nome =
+      document.getElementById(
+        'nome'
+      ).value.trim();
+
+
+    const categoria =
+      document.getElementById(
+        'categoria'
+      ).value;
+
+
+    const venda =
+      parseFloat(
+        document
+          .getElementById('venda')
+          .value
+          .replace(",", ".")
+      ) || 0;
+
+
+    const codigo =
+      document.getElementById(
+        'codigo'
+      ).value.trim();
+
+
+    const descricao =
+      document.getElementById(
+        'descricao'
+      ).value;
+
+
+    const tamanhos =
+      obterTamanhosSelecionados();
+
+
+    const cores =
+      obterCoresSelecionadas();
+
+
+    const variacoes =
+      obterVariacoes();
+
+
+    if(
+      !nome ||
+      !categoria ||
+      venda <= 0 ||
+      !codigo
+    ) {
+
+      alert(
+        'Por favor, preencha os campos obrigatórios.'
+      );
+
+      return;
+
+    }
+
+
+    if(tamanhos.length === 0) {
+
+      alert(
+        'Selecione pelo menos uma numeração.'
+      );
+
+      return;
+
+    }
+
+
+    if(cores.length === 0) {
+
+      alert(
+        'Selecione pelo menos uma cor.'
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      let res;
+
+      let produtoSalvo;
+
+
+      const estoqueTotal =
+        variacoes.reduce(
+          (total, item) =>
+            total + Number(item.estoque || 0),
+          0
+        );
+
+
+      const dados = {
+
+        nome,
+
+        categoria,
+
+        venda,
+
+        estoque: estoqueTotal,
+
+        codigo,
+
+        descricao,
+
+        imagens:
+          imagensSelecionadas,
+
+        tamanhos,
+
+        cores,
+
+        variacoes
+
+      };
+
+
+      /* =========================
+         EDITAR
+      ========================= */
+
+      if(produtoEditando) {
+
+        res =
+          await fetch(
+            '/api/produtos',
+            {
+              method: 'PUT',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body: JSON.stringify({
+
+                ...dados,
+
+                nomeAntigo:
+                  produtoEditando.nome
+
+              })
+
+            }
+          );
+
+        produtoSalvo =
+          await res.json();
+
+
+        if(!res.ok) {
+
+          throw new Error(
+            produtoSalvo.message ||
+            'Erro ao editar produto'
+          );
+
+        }
+
+
+        const index =
+          produtos.findIndex(
+            p =>
+              p.nome ===
+              produtoEditando.nome
+          );
+
+
+        if(index !== -1) {
+
+          produtos[index] =
+            produtoSalvo;
+
+        }
+
+
+        produtoEditando =
+          null;
+
+      }
+
+
+      /* =========================
+         NOVO
+      ========================= */
+
+      else {
+
+        res =
+          await fetch(
+            '/api/produtos',
+            {
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body:
+                JSON.stringify(dados)
+
+            }
+          );
+
+
+        produtoSalvo =
+          await res.json();
+
+
+        if(!res.ok) {
+
+          throw new Error(
+            produtoSalvo.message ||
+            'Erro ao cadastrar produto'
+          );
+
+        }
+
+      }
+
+
+      alert(
+        '✅ Produto salvo com sucesso!'
+      );
+
+
+      await carregarProdutos();
+
+
+      limparFormulario();
+
+
+    } catch(err) {
+
+      console.error(err);
+
+      alert(
+        '❌ Erro ao salvar produto: ' +
+        err.message
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   LIMPAR FORMULÁRIO
+===================================================== */
+
+function limparFormulario() {
+
+  form.reset();
+
+  produtoEditando =
+    null;
+
+  imagensSelecionadas =
+    [];
+
+  preview.innerHTML =
+    "";
+
+  document
+    .querySelectorAll(
+      'input[id^="tam"], input[id^="cor"]'
+    )
+    .forEach(
+      input =>
+        input.checked = false
+    );
+
+  atualizarTabelaEstoque();
+
+}
+
+
+/* =====================================================
+   EDITAR PRODUTO
+===================================================== */
+
+window.editarProduto =
+  function(index) {
+
+    const p =
+      produtos[index];
+
+    if(!p) return;
+
+
+    produtoEditando =
+      p;
+
+
+    document.getElementById(
+      'nome'
+    ).value =
+      p.nome || "";
+
+
+    document.getElementById(
+      'categoria'
+    ).value =
+      p.categoria || "";
+
+
+    document.getElementById(
+      'venda'
+    ).value =
+      p.preco || "";
+
+
+    document.getElementById(
+      'codigo'
+    ).value =
+      p.codigo || "";
+
+
+    document.getElementById(
+      'descricao'
+    ).value =
+      p.descricao || "";
+
+
+    /* =========================
+       TAMANHOS
+    ========================= */
+
+    document
+      .querySelectorAll(
+        'input[id^="tam"]'
+      )
+      .forEach(input => {
+
+        input.checked =
+          Array.isArray(p.tamanhos) &&
+          p.tamanhos
+            .map(String)
+            .includes(
+              String(input.value)
+            );
+
+      });
+
+
+    /* =========================
+       CORES
+    ========================= */
+
+    document
+      .querySelectorAll(
+        'input[id^="cor"]'
+      )
+      .forEach(input => {
+
+        input.checked =
+          Array.isArray(p.cores) &&
+          p.cores
+            .map(String)
+            .includes(
+              String(input.value)
+            );
+
+      });
+
+
+    atualizarTabelaEstoque();
+
+
+    /* =========================
+       RESTAURAR ESTOQUE
+    ========================= */
+
+    setTimeout(() => {
+
+      if(
+        Array.isArray(p.variacoes)
+      ) {
+
+        p.variacoes.forEach(
+          variacao => {
+
+            const input =
+              document.querySelector(
+                `.estoque-input[data-tamanho="${variacao.tamanho}"][data-cor="${variacao.cor}"]`
+              );
+
+            if(input) {
+
+              input.value =
+                variacao.estoque || 0;
+
+            }
+
+          }
+        );
+
+      }
+
+    }, 50);
+
+
+    /* =========================
+       IMAGENS
+    ========================= */
+
+    imagensSelecionadas =
+      Array.isArray(p.imagens)
+        ? [...p.imagens]
+        : [];
+
+
+    preview.innerHTML =
+      "";
+
+
+    imagensSelecionadas.forEach(
+      src => {
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+        wrapper.className =
+          "preview-item";
+
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
+          src;
+
+
+        const btnRemover =
+          document.createElement(
+            "button"
+          );
+
+        btnRemover.type =
+          "button";
+
+        btnRemover.className =
+          "remover-img";
+
+        btnRemover.innerHTML =
+          "🗑️";
+
+
+        btnRemover.onclick =
+          () => {
+
+            const i =
+              imagensSelecionadas.indexOf(
+                src
+              );
+
+            if(i > -1) {
+
+              imagensSelecionadas.splice(
+                i,
+                1
+              );
+
+            }
+
+            wrapper.remove();
+
+          };
+
+
+        wrapper.appendChild(img);
+
+        wrapper.appendChild(
+          btnRemover
+        );
+
+        preview.appendChild(
+          wrapper
+        );
+
+      }
+    );
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  };
+
+
+/* =====================================================
+   EXCLUIR
+===================================================== */
+
+window.excluirProduto =
+  async function(index) {
+
+    if(
+      !confirm(
+        'Tem certeza que deseja excluir este produto?'
+      )
+    ) return;
+
+
+    const nome =
+      produtos[index].nome;
+
+
+    try {
+
+      const res =
+        await fetch(
+          `/api/produtos?nome=${encodeURIComponent(nome)}`,
+          {
+            method: 'DELETE'
+          }
+        );
+
+
+      const text =
+        await res.text();
+
+
+      let data;
+
+
+      try {
+
+        data =
+          JSON.parse(text);
+
+      } catch {
+
+        data = {
+          message: text
+        };
+
+      }
+
+
+      if(!res.ok) {
+
+        alert(
+          '❌ Erro ao excluir: ' +
+          (data.message ||
+           res.statusText)
+        );
+
+        return;
+
+      }
+
+
+      produtos.splice(
+        index,
+        1
+      );
+
+
+      atualizarTabela();
+
+
+      alert(
+        '✅ Produto excluído com sucesso!'
+      );
+
+
+    } catch(err) {
+
+      console.error(err);
+
+      alert(
+        '❌ Erro de rede ao excluir produto.'
+      );
+
+    }
+
+  };
+
+
+/* =====================================================
+   FILTRO
+===================================================== */
+
+filtroInput.addEventListener(
+  'input',
+  () => {
+
+    const termo =
+      filtroInput.value
+        .toLowerCase();
+
+
+    const linhas =
+      tableBody.querySelectorAll(
+        'tr'
+      );
+
+
+    linhas.forEach(linha => {
+
+      if(
+        linha.classList.contains(
+          'no-data'
+        )
+      ) return;
+
+
+      const nome =
+        linha.children[1]
+          .textContent
+          .toLowerCase();
+
+
+      const categoria =
+        linha.children[2]
+          .textContent
+          .toLowerCase();
+
+
+      const codigo =
+        linha.children[5]
+          .textContent
+          .toLowerCase();
+
+
+      linha.style.display =
+        (
+          nome.includes(termo) ||
+          categoria.includes(termo) ||
+          codigo.includes(termo)
+        )
+        ? ''
+        : 'none';
+
+    });
+
+  }
+);
+
+
+/* =====================================================
+   CATEGORIAS
+===================================================== */
+
+async function carregarCategorias() {
+
+  try {
+
+    const res =
+      await fetch(
+        '/api/categorias'
+      );
+
+
+    const categorias =
+      await res.json();
+
+
+    const select =
+      document.getElementById(
+        'categoria'
+      );
+
+
+    select.innerHTML =
+      '<option value="">Selecione...</option>';
+
+
+    categorias.forEach(cat => {
+
+      const option =
+        document.createElement(
+          'option'
+        );
+
+
+      option.value =
+        cat.nome;
+
+
+      option.textContent =
+        cat.nome;
+
+
+      select.appendChild(
+        option
+      );
+
+    });
+
+  } catch(err) {
+
+    console.error(
+      'Erro ao carregar categorias:',
+      err
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   NOVA CATEGORIA
+===================================================== */
+
+document
+  .getElementById(
+    'addCategoriaBtn'
+  )
+  .addEventListener(
+    'click',
+    async () => {
+
+      const nomeCategoria =
+        prompt(
+          "Digite o nome da nova categoria:"
+        );
+
+
+      if(
+        !nomeCategoria ||
+        nomeCategoria.trim() === ""
+      ) return;
+
+
+      try {
+
+        const res =
+          await fetch(
+            '/api/categorias',
+            {
+
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body:
+                JSON.stringify({
+                  nome:
+                    nomeCategoria.trim()
+                })
+
+            }
+          );
+
+
+        if(!res.ok) {
+
+          throw new Error(
+            "Erro ao salvar categoria"
+          );
+
+        }
+
+
+        const novaCategoria =
+          await res.json();
+
+
+        const select =
+          document.getElementById(
+            'categoria'
+          );
+
+
+        const option =
+          document.createElement(
+            'option'
+          );
+
+
+        option.value =
+          novaCategoria.nome;
+
+
+        option.textContent =
+          novaCategoria.nome;
+
+
+        select.appendChild(
+          option
+        );
+
+
+        select.value =
+          novaCategoria.nome;
+
+
+        alert(
+          `✅ Categoria "${novaCategoria.nome}" adicionada com sucesso!`
+        );
+
+
+      } catch(err) {
+
+        console.error(err);
+
+        alert(
+          "❌ Erro ao adicionar categoria."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+carregarProdutos();
+
+carregarCategorias();
+
+atualizarTabelaEstoque();
+
+</script>
+
+</body>
+</html>

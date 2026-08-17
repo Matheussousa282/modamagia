@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categorias de Produtos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #222;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .btn-novo {
+    background: #1e1e2f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: background 0.3s;
+  }
+
+  .btn-novo:hover {
+    background: #34344a;
+  }
+
+  .form-container {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #444;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  /* Área de upload de imagem */
+  .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .upload-area:hover {
+    border-color: #1e1e2f;
+    background: #f9f9ff;
+  }
+
+  .upload-area.tem-imagem {
+    border-color: #28a745;
+    background: #f0fff4;
+  }
+
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-preview {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .upload-preview img {
+    max-height: 80px;
+    max-width: 160px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #888;
+    font-size: 14px;
+  }
+
+  .upload-placeholder span.icone {
+    font-size: 32px;
+  }
+
+  .btn-remover-img {
+    background: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn-remover-img:hover {
+    background: #dc3545;
+    color: white;
+  }
+
+  button.salvar {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  button.salvar:hover {
+    background: #218838;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+  }
+
+  th {
+    background: #1e1e2f;
+    color: white;
+  }
+
+  /* Célula da imagem na tabela */
+  .celula-imagem {
+    width: 70px;
+    text-align: center;
+  }
+
+  .emblema-tabela {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  /* Badge de texto quando não há imagem */
+  .badge-sem-imagem {
+    display: inline-block;
+    background: #e9ecef;
+    color: #6c757d;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  td button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+  }
+
+  td button:hover {
+    background: #c82333;
+  }
+
+  .btn-editar {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 6px;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .btn-editar:hover {
+    background: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Gerenciar Categorias</h1>
+
+  <button class="btn-novo" onclick="abrirFormNovo()">➕ Nova Categoria</button>
+
+  <div class="form-container" id="form-categoria">
+    <h2 id="titulo-form">Criar Nova Categoria</h2>
+
+    <input type="hidden" id="id-edicao">
+    <input type="hidden" id="imagem-base64">
+
+    <label>Nome da Categoria</label>
+    <input type="text" id="nome-categoria" placeholder="Ex: Volvo, Iveco, Scania..." required>
+
+    <label>Emblema / Ícone</label>
+    <div class="upload-area" id="upload-area">
+      <input type="file" id="input-imagem" accept="image/*" onchange="processarImagem(event)">
+
+      <div class="upload-placeholder" id="upload-placeholder">
+        <span class="icone">🖼️</span>
+        <span>Clique para selecionar uma imagem</span>
+        <span style="font-size:12px; color:#aaa;">PNG, JPG, SVG, WEBP — recomendado fundo transparente</span>
+      </div>
+
+      <div class="upload-preview" id="upload-preview">
+        <img id="preview-img" src="" alt="Preview">
+        <span id="preview-nome" style="font-size:12px; color:#555;"></span>
+        <button class="btn-remover-img" onclick="removerImagem(event)">✕ Remover imagem</button>
+      </div>
+    </div>
+
+    <button class="salvar" onclick="salvarCategoria()">💾 Salvar Categoria</button>
+  </div>
+
+  <h2>Lista de Categorias</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th class="celula-imagem">Emblema</th>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="lista-categorias">
+      <tr><td colspan="4" style="text-align:center; color:#888;">Nenhuma categoria cadastrada</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+  const tabela = document.getElementById('lista-categorias');
+  const form = document.getElementById('form-categoria');
+  const API_URL = "/api/categorias";
+
+  async function carregarCategorias() {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    atualizarTabela(data);
+  }
+
+  function abrirFormNovo() {
+    document.getElementById('titulo-form').textContent = "Criar Nova Categoria";
+    document.getElementById('id-edicao').value = "";
+    document.getElementById('nome-categoria').value = "";
+    limparPreviewImagem();
+    form.style.display = form.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // ── Processamento de imagem ──────────────────────────────────────
+  function processarImagem(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64 = e.target.result; // "data:image/png;base64,..."
+      document.getElementById('imagem-base64').value = base64;
+
+      // Atualizar preview
+      document.getElementById('preview-img').src = base64;
+      document.getElementById('preview-nome').textContent = file.name;
+      document.getElementById('upload-placeholder').style.display = 'none';
+      document.getElementById('upload-preview').style.display = 'flex';
+      document.getElementById('upload-area').classList.add('tem-imagem');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removerImagem(event) {
+    event.stopPropagation(); // Não abrir seletor de arquivo
+    limparPreviewImagem();
+  }
+
+  function limparPreviewImagem() {
+    document.getElementById('imagem-base64').value = "";
+    document.getElementById('input-imagem').value = "";
+    document.getElementById('preview-img').src = "";
+    document.getElementById('preview-nome').textContent = "";
+    document.getElementById('upload-placeholder').style.display = 'flex';
+    document.getElementById('upload-preview').style.display = 'none';
+    document.getElementById('upload-area').classList.remove('tem-imagem');
+  }
+
+  // ── Salvar (criar ou editar) ─────────────────────────────────────
+  async function salvarCategoria() {
+    const nome = document.getElementById('nome-categoria').value.trim();
+    const id = document.getElementById('id-edicao').value;
+    const imagem = document.getElementById('imagem-base64').value || null;
+
+    if (!nome) {
+      alert("Informe o nome da categoria!");
+      return;
+    }
+
+    if (id) {
+      await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, nome, imagem })
+      });
+    } else {
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, imagem })
+      });
+    }
+
+    document.getElementById('id-edicao').value = "";
+    document.getElementById('nome-categoria').value = "";
+    document.getElementById('titulo-form').textContent = "Criar Nova Categoria";
+    limparPreviewImagem();
+    form.style.display = "none";
+
+    carregarCategorias();
+  }
+
+  // ── Remover categoria ────────────────────────────────────────────
+  async function removerCategoria(id) {
+    if (!confirm("Tem certeza que deseja excluir esta categoria?")) return;
+    await fetch(`${API_URL}?id=${id}`, { method: "DELETE" });
+    carregarCategorias();
+  }
+
+  // ── Editar categoria ─────────────────────────────────────────────
+  function editarCategoria(id, nome, imagem) {
+    document.getElementById("titulo-form").textContent = "Editar Categoria";
+    document.getElementById("id-edicao").value = id;
+    document.getElementById("nome-categoria").value = nome;
+
+    limparPreviewImagem();
+
+    if (imagem) {
+      document.getElementById('imagem-base64').value = imagem;
+      document.getElementById('preview-img').src = imagem;
+      document.getElementById('preview-nome').textContent = "Imagem atual";
+      document.getElementById('upload-placeholder').style.display = 'none';
+      document.getElementById('upload-preview').style.display = 'flex';
+      document.getElementById('upload-area').classList.add('tem-imagem');
+    }
+
+    form.style.display = "block";
+    form.scrollIntoView({ behavior: "smooth" });
+  }
+
+  // ── Renderizar tabela ────────────────────────────────────────────
+  function atualizarTabela(categorias) {
+    if (categorias.length === 0) {
+      tabela.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888;">Nenhuma categoria cadastrada</td></tr>`;
+      return;
+    }
+
+    tabela.innerHTML = categorias.map(c => {
+      // Escapa aspas para não quebrar o onclick
+      const nomeEscapado = c.nome.replace(/'/g, "\\'");
+      const imagemEscapada = c.imagem ? "true" : "false"; // não passa base64 inline no onclick
+
+      const emblema = c.imagem
+        ? `<img src="${c.imagem}" alt="${c.nome}" class="emblema-tabela">`
+        : `<span class="badge-sem-imagem">${c.nome}</span>`;
+
+      return `
+        <tr>
+          <td>${c.id}</td>
+          <td class="celula-imagem">${emblema}</td>
+          <td>${c.nome}</td>
+          <td>
+            <button class="btn-editar" onclick="editarCategoriaById(${c.id})">✏️ Editar</button>
+            <button onclick="removerCategoria(${c.id})">🗑️ Excluir</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Armazena dados em memória para o editarCategoriaById
+    window._categoriasCache = categorias;
+  }
+
+  // Busca do cache local para não passar base64 gigante no inline onclick
+  function editarCategoriaById(id) {
+    const c = (window._categoriasCache || []).find(x => x.id === id);
+    if (!c) return;
+    editarCategoria(c.id, c.nome, c.imagem);
+  }
+
+  carregarCategorias();
+  </script>
+
+</body>
+</html>
